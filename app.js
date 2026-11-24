@@ -12,7 +12,8 @@ const CONFIG = {
   // Classes participantes, regroupées par école.
   CLASSES: {
     "ESD": ["B3 CI", "B3 DESIGN", "B3 MARKET", "M1 DESIGN", "M1 UXUI", "M1 VIDEO", "M2 DESIGN", "M2 UXUI", "M2 VIDEO"],
-    "ESP": ["B2 COM & PUB", "B3 EVENT", "B3 PRODUCTION CREATIVE"]
+    "ESP": ["B2 COM & PUB", "B3 EVENT", "B3 PRODUCTION CREATIVE"],
+    "SAE": ["B3 AUDIO"]
   }
 };
 
