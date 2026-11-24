@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Event 2027 · Choix des ateliers</title>
+  <meta name="description" content="Choisissez vos ateliers pour le Digital Event 2027 – campus de Lyon.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-kicker">Campus de Lyon</span>
+      <span class="brand-name">Digital Event <em>2027</em></span>
+    </div>
+    <ol class="stepper" aria-label="Progression">
+      <li data-step="1"><span class="dot">1</span><span class="lbl">Profil</span></li>
+      <li data-step="2"><span class="dot">2</span><span class="lbl">Vos vœux</span></li>
+      <li data-step="3"><span class="dot">3</span><span class="lbl">Récapitulatif</span></li>
+      <li data-step="4"><span class="dot">4</span><span class="lbl">Confirmation</span></li>
+    </ol>
+  </header>
+
+  <main class="card" id="main">
+    <div id="demo-banner" class="demo" hidden>Mode démo : aucune réponse n'est enregistrée (adresse du Google Sheet non configurée).</div>
+    <div id="closed-banner" class="closed" hidden>
+      <h1>Les inscriptions sont closes</h1>
+      <p>Merci ! Le choix des ateliers n'est plus ouvert. Pour toute question, contactez l'équipe pédagogique.</p>
+    </div>
+
+    <!-- ÉTAPE 1 -->
+    <section class="step" data-step="1">
+      <p class="eyebrow">Étape 1 sur 4</p>
+      <h1>Renseignez votre profil</h1>
+      <p class="lead">Un atelier, une expérience à concevoir et à présenter lors de l'événement. Commencez par vous présenter.</p>
+      <form id="form-profil" novalidate>
+        <div class="fields">
+          <label class="field">
+            <span>Classe</span>
+            <select id="classe" required>
+              <option value="">Sélectionnez votre classe</option>
+            </select>
+            <small class="err" data-for="classe"></small>
+          </label>
+          <label class="field">
+            <span>Nom</span>
+            <input id="nom" type="text" autocomplete="family-name" maxlength="60" required>
+            <small class="err" data-for="nom"></small>
+          </label>
+          <label class="field">
+            <span>Prénom</span>
+            <input id="prenom" type="text" autocomplete="given-name" maxlength="60" required>
+            <small class="err" data-for="prenom"></small>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Étape suivante</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ÉTAPE 2 -->
+    <section class="step" data-step="2" hidden>
+      <p class="eyebrow">Étape 2 sur 4</p>
+      <h1>Classez vos vœux</h1>
+      <p class="lead">Choisissez jusqu'à <strong>3 ateliers par ordre de préférence</strong> : le vœu 1 est celui qui compte le plus. Vous pouvez aussi indiquer un atelier que vous ne voulez surtout pas faire.</p>
+
+      <label class="toggle">
+        <input type="checkbox" id="sans-pref">
+        <span class="track" aria-hidden="true"></span>
+        <span class="toggle-txt">
+          <strong>Je n'ai pas de préférence</strong>
+          <small>Vous me placez dans l'atelier de votre choix.</small>
+        </span>
+      </label>
+
+      <div id="wishes-block">
+        <div class="slots" id="slots"></div>
+      </div>
+
+      <div class="nogo-block">
+        <h2 class="slot-title">Mon « no go » <span class="opt">(facultatif)</span></h2>
+        <p class="hint">L'atelier dans lequel vous ne voulez absolument pas aller. Nous ferons tout pour l'éviter.</p>
+        <div class="slots slots-single" id="slot-nogo"></div>
+      </div>
+
+      <label class="field field-wide">
+        <span>Commentaire <span class="opt">(facultatif)</span></span>
+        <textarea id="commentaire" rows="3" maxlength="500" placeholder="Une contrainte, une envie de travailler avec quelqu'un, une précision…"></textarea>
+        <small class="counter"><span id="count">0</span> / 500</small>
+      </label>
+      <!-- Champ piège anti-robots, invisible pour les humains -->
+      <input type="text" id="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+
+      <p class="err err-block" id="err-wishes"></p>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" data-go="1">Retour</button>
+        <button type="button" class="btn btn-primary" id="to-recap">Étape suivante</button>
+      </div>
+    </section>
+
+    <!-- ÉTAPE 3 -->
+    <section class="step" data-step="3" hidden>
+      <p class="eyebrow">Étape 3 sur 4</p>
+      <h1>Vérifiez vos choix</h1>
+      <p class="lead">Relisez avant d'envoyer. Si vous renvoyez le formulaire plus tard, seule votre dernière réponse sera prise en compte.</p>
+      <dl class="recap" id="recap"></dl>
+      <p class="err err-block" id="err-send"></p>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" data-go="2">Modifier</button>
+        <button type="button" class="btn btn-primary" id="send">Envoyer mes vœux</button>
+      </div>
+    </section>
+
+    <!-- ÉTAPE 4 -->
+    <section class="step" data-step="4" hidden>
+      <p class="eyebrow">Étape 4 sur 4</p>
+      <h1>C'est envoyé&nbsp;!</h1>
+      <p class="lead" id="thanks"></p>
+      <p>Nous ferons la répartition en respectant au mieux les vœux de chacun et l'équilibre des groupes. Vous recevrez votre atelier avant le lancement du Digital Event.</p>
+      <p class="small">Une erreur ? Vous pouvez renvoyer le formulaire : votre nouvelle réponse remplacera l'ancienne.</p>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" id="restart">Modifier ma réponse</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sélecteur d'atelier -->
+  <dialog id="picker" aria-labelledby="picker-title">
+    <div class="picker-head">
+      <h2 id="picker-title">Choisir un atelier</h2>
+      <button type="button" class="icon-btn" id="picker-close" aria-label="Fermer">✕</button>
+    </div>
+    <div class="picker-list" id="picker-list"></div>
+  </dialog>
+
+  <footer class="foot">
+    <p>Vos nom, prénom, classe et vœux servent uniquement à composer les groupes du Digital Event 2027. Ils sont supprimés après l'événement.</p>
+    <p>ESP · ESD Lyon</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
